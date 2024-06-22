@@ -37,4 +37,10 @@ class Bet extends Model
     {
         return $this->belongsTo(Event::class);
     }
+
+    public function surebets(): BelongsToMany
+    {
+        return $this->belongsToMany(Surebet::class)
+            ->using(SurebetBet::class);
+    }
 }
