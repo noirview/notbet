@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Bet;
-use App\Models\Surebet;
 use App\Models\SurebetBet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
