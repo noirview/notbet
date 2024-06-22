@@ -36,7 +36,7 @@ class BookmakerTournamentFactory extends Factory
         return Carbon::now();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'external_id' => $this->getExternalId(),

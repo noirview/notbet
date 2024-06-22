@@ -32,7 +32,7 @@ class EventPlayerFactory extends Factory
         return Carbon::now();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'team_number' => $this->getTeamNumber(),

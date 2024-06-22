@@ -36,7 +36,7 @@ class BookmakerPlayerFactory extends Factory
         return Carbon::now();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->getName(),

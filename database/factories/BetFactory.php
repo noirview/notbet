@@ -80,7 +80,7 @@ class BetFactory extends Factory
         return Carbon::now();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'type' => $this->getType(),

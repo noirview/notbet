@@ -20,7 +20,7 @@ class TournamentFactory extends Factory
         return Carbon::now();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'updated_at' => $this->getUpdatedAt(),

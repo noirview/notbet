@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class SurebetBet extends Pivot
@@ -22,12 +22,12 @@ class SurebetBet extends Pivot
         'bet_id' => 'string',
     ];
 
-    public function surebet()
+    public function surebet(): BelongsTo
     {
         return $this->belongsTo(Surebet::class);
     }
 
-    public function bet()
+    public function bet(): BelongsTo
     {
         return $this->belongsTo(Bet::class);
     }

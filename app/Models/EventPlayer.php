@@ -6,7 +6,7 @@ use App\Enums\EventPlayer\PositionNumber;
 use App\Enums\EventPlayer\TeamNumber;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class EventPlayer extends Pivot
@@ -30,12 +30,12 @@ class EventPlayer extends Pivot
         'position_number' => PositionNumber::class,
     ];
 
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function player()
+    public function player(): BelongsTo
     {
         return $this->belongsTo(Player::class);
     }
