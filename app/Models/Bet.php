@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\Bet\NumberPeriod;
+use App\Enums\Bet\NumberTeam;
+use App\Enums\Bet\Sign;
+use App\Enums\Bet\Type;
+use App\Enums\Bookmaker;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,13 +29,13 @@ class Bet extends Model
     ];
 
     protected $casts = [
-        'type' => 'integer',
-        'number_team' => 'integer',
-        'number_period' => 'integer',
-        'sign' => 'integer',
+        'type' => Type::class,
+        'number_team' => NumberTeam::class,
+        'number_period' => NumberPeriod::class,
+        'sign' => Sign::class,
         'value' => 'decimal',
         'coefficient' => 'decimal',
-        'bookmaker' => 'integer',
+        'bookmaker' => Bookmaker::class,
     ];
 
     public function event()

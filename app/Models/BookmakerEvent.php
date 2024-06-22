@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Bookmaker;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ class BookmakerEvent extends Model
         'external_id' => 'string',
         'event_id' => 'string',
         'start_at' => 'datetime:Y-m-d H:i:s',
-        'bookmaker' => 'integer',
+        'bookmaker' => Bookmaker::class,
     ];
 
     public function event(): BelongsTo

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Bookmaker;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class BookmakerPlayer extends Model
         'player_id' => 'string',
         'name' => 'string',
         'is_short_name' => 'boolean',
-        'bookmaker' => 'integer',
+        'bookmaker' => Bookmaker::class,
     ];
 
     public function player(): BelongsTo

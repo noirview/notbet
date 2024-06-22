@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\EventPlayer\PositionNumber;
+use App\Enums\EventPlayer\TeamNumber;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,8 +26,8 @@ class EventPlayer extends Pivot
     protected $casts = [
         'event_id' => 'string',
         'player_id' => 'string',
-        'team_number' => 'integer',
-        'position_number' => 'integer',
+        'team_number' => TeamNumber::class,
+        'position_number' => PositionNumber::class,
     ];
 
     public function event()

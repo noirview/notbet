@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Bookmaker;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ class BookmakerTournament extends Model
         'external_id' => 'string',
         'tournament_id' => 'string',
         'name' => 'string',
-        'bookmaker' => 'integer',
+        'bookmaker' => Bookmaker::class,
     ];
 
     public function tournament(): BelongsTo
