@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BookmakerPlayer extends Model
 {
-    use HasUuids, HasUuids, HasFactory;
+    use HasFactory;
+    use HasUuids;
 
     protected $fillable = [
         'player_id',

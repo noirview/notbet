@@ -26,12 +26,12 @@ class BookmakerTournamentFactory extends Factory
         return Bookmaker::getRandomValue();
     }
 
-    public function getCreatedAt(): Carbon
+    public function getUpdatedAt(): Carbon
     {
         return Carbon::now();
     }
 
-    public function getUpdatedAt(): Carbon
+    public function getCreatedAt(): Carbon
     {
         return Carbon::now();
     }
