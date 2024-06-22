@@ -34,6 +34,11 @@ class Event extends Model
             ->withPivot(['team_number', 'position_number']);
     }
 
+    public function bets(): HasMany
+    {
+        return $this->hasMany(Bet::class);
+    }
+
     public function bookmakerEvents(): HasMany
     {
         return $this->hasMany(BookmakerEvent::class);
