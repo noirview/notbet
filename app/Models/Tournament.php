@@ -12,6 +12,11 @@ class Tournament extends Model
     use HasFactory;
     use HasUuids;
 
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
     public function bookmakerTournaments(): HasMany
     {
         return $this->hasMany(BookmakerTournament::class);
