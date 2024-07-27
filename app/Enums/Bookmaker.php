@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class Bookmaker extends Enum
 {
-    const int TWO = 1;
     const int MARATHONBET = 0;
+    const int MAXLINE = 1;
     const int THREE = 2;
 }
