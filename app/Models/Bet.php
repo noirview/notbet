@@ -34,8 +34,8 @@ class Bet extends Model
         'number_team' => NumberTeam::class,
         'number_period' => NumberPeriod::class,
         'sign' => Sign::class,
-        'value' => 'decimal',
-        'coefficient' => 'decimal',
+        'value' => 'float',
+        'coefficient' => 'float',
         'bookmaker' => Bookmaker::class,
     ];
 
