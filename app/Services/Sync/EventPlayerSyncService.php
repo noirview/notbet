@@ -2,19 +2,15 @@
 
 namespace App\Services\Sync;
 
-use App\Contracts\SyncServiceContract;
 use App\Contracts\SyncSourceContract;
 use App\DTOs\EventPlayerSyncDTO;
 use App\Enums\Bookmaker;
-use App\Enums\EventPlayer\PositionNumber;
-use App\Enums\EventPlayer\TeamNumber;
 use App\Models\BookmakerEvent;
 use App\Models\BookmakerPlayer;
 use App\Models\EventPlayer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use function Laravel\Prompts\select;
 
 class EventPlayerSyncService extends SyncServiceDecorator
 {
