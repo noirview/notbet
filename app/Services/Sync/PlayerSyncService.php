@@ -90,12 +90,12 @@ class PlayerSyncService extends SyncServiceDecorator
             $filledBookmakerPlayers->push($bookmakerPlayer);
         }
 
-        $bookmakerTournaments = $filledBookmakerPlayers->map(
+        $bookmakerPlayers = $filledBookmakerPlayers->map(
             fn(BookmakerPlayer $bookmakerPlayer) => $this->fillBookmakerPlayer($bookmakerPlayer)
         );
 
         Player::query()->insert($players->toArray());
-        BookmakerPlayer::query()->insert($bookmakerTournaments->toArray());
+        BookmakerPlayer::query()->insert($bookmakerPlayers->toArray());
     }
 
     public function deleteExceptMany(Collection $players): void
