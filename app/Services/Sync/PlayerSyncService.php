@@ -29,7 +29,9 @@ class PlayerSyncService extends SyncServiceDecorator
 
     private function createUniqueKey(BookmakerPlayer $player): string
     {
-        return "$player->name|$player->is_short_name|$player->bookmaker";
+        $isShortName = $player->is_short_name ? 't' : 'f';
+
+        return "$player->name|$isShortName|$player->bookmaker";
     }
 
     private function fillPlayer(Player $player): Player
@@ -63,7 +65,7 @@ class PlayerSyncService extends SyncServiceDecorator
         );
 
         $existsBookmakerPlayers = BookmakerPlayer::query()
-            ->whereIn(DB::raw("concat(name, '|', is_short_name, '|', 'bookmaker')"), $bookmakerPlayerUniqueKeys)
+            ->whereIn(DB::raw("concat(name, '|', is_short_name, '|', bookmaker)"), $bookmakerPlayerUniqueKeys)
             ->get();
 
         $bookmakerPlayers = $bookmakerPlayers->filter(fn(BookmakerPlayer $player) => !$existsBookmakerPlayers

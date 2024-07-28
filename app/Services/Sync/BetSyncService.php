@@ -66,7 +66,7 @@ class BetSyncService implements SyncServiceContract
         );
 
         $existBets = Bet::query()
-            ->whereIn(DB::raw("concat(event_id, '|', type, '|', number_team, '|', number_period, '|', sign, '|', value, '|', coefficient, '|', bookmaker)"), $betUniqueKeys)
+            ->whereIn(DB::raw("concat(event_id, '|', type, '|', number_team, '|', number_period, '|', sign, '|', value, '|', bookmaker)"), $betUniqueKeys)
             ->get();
 
         [$this->update, $this->create] = $bets->partition(
