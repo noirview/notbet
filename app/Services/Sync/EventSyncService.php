@@ -152,7 +152,7 @@ class EventSyncService extends SyncServiceDecorator
 
         $events = $events->map(
             fn(Event $event) => $this->fillEvent($event)
-        );
+        )->values();
 
         $filledBookmakerEvents = collect();
         for ($index = 0; $index < $bookmakerEvents->count(); $index++) {

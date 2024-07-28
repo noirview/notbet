@@ -93,7 +93,7 @@ class TournamentSyncService extends SyncServiceDecorator
 
         Tournament::query()->insert($tournaments->toArray());
 
-        return $tournaments;
+        return $tournaments->values();
     }
 
     private function storeBookmakerTournaments(Collection $bookmakerTournaments): Collection
