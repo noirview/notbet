@@ -137,9 +137,9 @@ class EventPlayerSyncService extends SyncServiceDecorator
 
         $eventPlayers = $eventPlayers->filter(fn(EventPlayer $eventPlayer) => !$existsEventPlayers
             ->contains(function (EventPlayer $existsEventPlayer) use ($eventPlayer) {
-                return $this->createEventPlayerUniqueKey($eventPlayer) != $this->createEventPlayerUniqueKey($existsEventPlayer);
+                return $this->createEventPlayerUniqueKey($eventPlayer) == $this->createEventPlayerUniqueKey($existsEventPlayer);
             })
-        );
+        )->values();
 
         $eventPlayers = $eventPlayers->map(
             fn(EventPlayer $eventPlayer) => $this->fillEventPlayer($eventPlayer)

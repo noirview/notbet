@@ -133,9 +133,9 @@ class EventSyncService extends SyncServiceDecorator
         $bookmakerEvents = $bookmakerEvents->filter(
             fn(BookmakerEvent $event) => !$existsBookmakerEvents
                 ->contains(function (BookmakerEvent $existEvent) use ($event) {
-                    return $this->createBookmakerEventUniqueKey($event) != $this->createBookmakerEventUniqueKey($existEvent);
+                    return $this->createBookmakerEventUniqueKey($event) == $this->createBookmakerEventUniqueKey($existEvent);
                 })
-        );
+        )->values();
 
         $events = $events->map(function (EventSyncDTO $dto) use ($bookmakerTournaments) {
             $bookmakerTournament = $bookmakerTournaments

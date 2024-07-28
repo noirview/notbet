@@ -78,9 +78,9 @@ class TournamentSyncService extends SyncServiceDecorator
         $bookmakerTournaments = $bookmakerTournaments->filter(
             fn(BookmakerTournament $tournament) => !$existsBookmakerTournaments
                 ->contains(function (BookmakerTournament $existTournament) use ($tournament) {
-                    return $this->createUniqueKey($tournament) != $this->createUniqueKey($existTournament);
+                    return $this->createUniqueKey($tournament) == $this->createUniqueKey($existTournament);
                 })
-        );
+        )->values();
 
         return $bookmakerTournaments;
     }

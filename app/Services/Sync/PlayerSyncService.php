@@ -68,9 +68,9 @@ class PlayerSyncService extends SyncServiceDecorator
 
         $bookmakerPlayers = $bookmakerPlayers->filter(fn(BookmakerPlayer $player) => !$existsBookmakerPlayers
             ->contains(function (BookmakerPlayer $existsPlayer) use ($player) {
-                return $this->createUniqueKey($player) != $this->createUniqueKey($existsPlayer);
+                return $this->createUniqueKey($player) == $this->createUniqueKey($existsPlayer);
             })
-        );
+        )->values();
 
         $players = $bookmakerPlayers->map(
             fn(BookmakerPlayer $player) => $this->createPlayerFromBookmakerPlayer($player)
