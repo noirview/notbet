@@ -142,10 +142,14 @@ class EventSyncService extends SyncServiceDecorator
                 ->where('external_id', $dto->tournament_id)
                 ->firstWhere('bookmaker', Bookmaker::fromValue($dto->bookmaker));
 
+            if ($bookmakerTournament == null) {
+                return null;
+            }
+
             return new Event([
                 'tournament_id' => $bookmakerTournament->tournament_id,
             ]);
-        });
+        })->filter();
 
         $events = $events->map(
             fn(Event $event) => $this->fillEvent($event)

@@ -107,7 +107,7 @@ class EventPlayerSyncService extends SyncServiceDecorator
             })
         );
 
-        $eventPlayers = $eventPlayers->map(function(EventPlayerSyncDTO $dto) use ($bookmakerEvents, $bookmakerPlayers) {
+        $eventPlayers = $eventPlayers->map(function (EventPlayerSyncDTO $dto) use ($bookmakerEvents, $bookmakerPlayers) {
             $bookmakerEvent = $bookmakerEvents
                 ->where('external_id', $dto->eventId)
                 ->firstWhere('bookmaker', Bookmaker::fromValue($dto->bookmaker));
@@ -117,6 +117,10 @@ class EventPlayerSyncService extends SyncServiceDecorator
                 ->where('is_short_name', $dto->isShortPlayerName)
                 ->firstWhere('bookmaker', Bookmaker::fromValue($dto->bookmaker));
 
+            if ($bookmakerEvent === null || $bookmakerPlayer === null) {
+                return null;
+            }
+
             $eventPlayer = new EventPlayer([
                 'event_id' => $bookmakerEvent->event_id,
                 'player_id' => $bookmakerPlayer->player_id,
@@ -125,7 +129,7 @@ class EventPlayerSyncService extends SyncServiceDecorator
             ]);
 
             return $eventPlayer;
-        });
+        })->filter();
 
         $eventPlayerUniqueKeys = $eventPlayers->map(
             fn(EventPlayer $eventPlayer) => $this->createEventPlayerUniqueKey($eventPlayer)
@@ -174,7 +178,7 @@ class EventPlayerSyncService extends SyncServiceDecorator
             ->whereIn(DB::raw("concat(name, '|', is_short_name, '|', bookmaker)"), $bookmakerPlayerUniqueKeys)
             ->get();
 
-        $eventPlayers = $eventPlayers->map(function(EventPlayerSyncDTO $dto) use ($bookmakerEvents, $bookmakerPlayers) {
+        $eventPlayers = $eventPlayers->map(function (EventPlayerSyncDTO $dto) use ($bookmakerEvents, $bookmakerPlayers) {
             $bookmakerEvent = $bookmakerEvents
                 ->where('external_id', $dto->eventId)
                 ->firstWhere('bookmaker', Bookmaker::fromValue($dto->bookmaker));
@@ -184,6 +188,10 @@ class EventPlayerSyncService extends SyncServiceDecorator
                 ->where('is_short_name', $dto->isShortPlayerName)
                 ->firstWhere('bookmaker', Bookmaker::fromValue($dto->bookmaker));
 
+            if ($bookmakerEvent === null || $bookmakerPlayer === null) {
+                return null;
+            }
+
             $eventPlayer = new EventPlayer([
                 'event_id' => $bookmakerEvent->event_id,
                 'player_id' => $bookmakerPlayer->player_id,
@@ -192,7 +200,7 @@ class EventPlayerSyncService extends SyncServiceDecorator
             ]);
 
             return $eventPlayer;
-        });
+        })->filter();
 
         $eventPlayerUniqueKeys = $eventPlayers->map(
             fn(EventPlayer $eventPlayer) => $this->createEventPlayerUniqueKey($eventPlayer)

@@ -49,6 +49,10 @@ class BetSyncService implements SyncServiceContract
                 ->where('external_id', $dto->eventExternalId)
                 ->firstWhere('bookmaker', Bookmaker::fromValue($dto->bookmaker));
 
+            if ($bookmakerEvent === null) {
+                return null;
+            }
+
             return new Bet([
                 'event_id' => $bookmakerEvent->event_id,
                 'type' => $dto->type,
@@ -59,7 +63,7 @@ class BetSyncService implements SyncServiceContract
                 'coefficient' => $dto->coefficient,
                 'bookmaker' => $dto->bookmaker,
             ]);
-        });
+        })->filter();
 
         $betUniqueKeys = $bets->map(
             fn(Bet $bet) => $this->createBetUniqueKey($bet)
