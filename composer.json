@@ -9,6 +9,7 @@
         "bensampo/laravel-enum": "^6.11",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "revolution/laravel-google-sheets": "^7.0",
         "symfony/dom-crawler": "^7.1"
     },
     "require-dev": {
