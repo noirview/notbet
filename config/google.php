@@ -71,5 +71,7 @@ return [
     | NOTE: If client id is specified here, it will get over written by the one above.
     |
     */
-    'config' => [],
+    'config' => [
+        'spreadsheet_id' => env('GOOGLE_SPREADSHEET_ID', ''),
+    ],
 ];
