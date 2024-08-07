@@ -112,54 +112,66 @@ class MarathonbetService implements SyncSourceContract
                             });
 
                         $firstWinnerBetNode = $eventNode->filter('[data-mutable-id="S_0_1_european"]');
+                        $hasFirstWinnerBetNode = $firstWinnerBetNode->count() !== 0;
                         $firstWinnerCoefficientNode = $firstWinnerBetNode->filter('.selection-link.active-selection');
+                        $hasFirstWinnerCoefficientNode = $firstWinnerCoefficientNode->count() != 0;
 
                         $secondWinnerBetNode = $eventNode->filter('[data-mutable-id="S_0_3_european"]');
+                        $hasSecondWinnerBetNode = $secondWinnerBetNode->count() !== 0;
                         $secondWinnerCoefficientNode = $secondWinnerBetNode->filter('.selection-link.active-selection');
+                        $hasSecondWinnerCoefficientNode = $secondWinnerCoefficientNode->count() != 0;
 
                         $firstHandicapBetNode = $eventNode->filter('[data-mutable-id="S_1_1_european"]');
                         $hasFirstHandicapBet = $firstHandicapBetNode->count() !== 0;
                         $firstHandicapValueNode = $firstHandicapBetNode->filter('.middle-simple');
                         $firstHandicapCoefficientNode = $firstHandicapBetNode->filter('.selection-link.active-selection');
+                        $hasFirstHandicapCoefficientNode = $firstHandicapCoefficientNode->count() !== 0;
 
                         $secondHandicapBetNode = $eventNode->filter('[data-mutable-id="S_1_3_european"]');
                         $hasSecondHandicapBet = $secondHandicapBetNode->count() !== 0;
                         $secondHandicapValueNode = $secondHandicapBetNode->filter('.middle-simple');
                         $secondHandicapCoefficientNode = $secondHandicapBetNode->filter('.selection-link.active-selection');
+                        $hasSecondHandicapCoefficientNode = $secondHandicapCoefficientNode->count() !== 0;
 
                         $firstTotalBetNode = $eventNode->filter('[data-mutable-id="S_2_1_european"]');
                         $hasFirstTotalBet = $firstTotalBetNode->count() !== 0;
                         $firstTotalValueNode = $firstTotalBetNode->filter('.middle-simple');
                         $firstTotalCoefficientNode = $firstTotalBetNode->filter('.selection-link.active-selection');
+                        $hasFirstTotalCoefficientNode = $firstTotalCoefficientNode->count() !== 0;
 
                         $secondTotalBetNode = $eventNode->filter('[data-mutable-id="S_2_3_european"]');
                         $hasSecondTotalBet = $secondTotalBetNode->count() !== 0;
                         $secondTotalValueNode = $secondTotalBetNode->filter('.middle-simple');
                         $secondTotalCoefficientNode = $secondTotalBetNode->filter('.selection-link.active-selection');
+                        $hasSecondTotalCoefficientNode = $secondTotalCoefficientNode->count() !== 0;
 
-                        $firstWinnerBet = new BetSyncDTO(
-                            $event->id,
-                            Type::WINNER,
-                            NumberTeam::FIRST,
-                            null,
-                            null,
-                            null,
-                            floatval($firstWinnerCoefficientNode->attr('data-selection-price')),
-                            Bookmaker::MARATHONBET,
-                        );
+                        if ($hasFirstWinnerBetNode && $hasFirstWinnerCoefficientNode) {
+                            $firstWinnerBet = new BetSyncDTO(
+                                $event->id,
+                                Type::WINNER,
+                                NumberTeam::FIRST,
+                                null,
+                                null,
+                                null,
+                                floatval($firstWinnerCoefficientNode->attr('data-selection-price')),
+                                Bookmaker::MARATHONBET,
+                            );
+                        }
 
-                        $secondWinnerBet = new BetSyncDTO(
-                            $event->id,
-                            Type::WINNER,
-                            NumberTeam::SECOND,
-                            null,
-                            null,
-                            null,
-                            floatval($secondWinnerCoefficientNode->attr('data-selection-price')),
-                            Bookmaker::MARATHONBET,
-                        );
+                        if ($hasSecondWinnerBetNode && $hasSecondWinnerCoefficientNode) {
+                            $secondWinnerBet = new BetSyncDTO(
+                                $event->id,
+                                Type::WINNER,
+                                NumberTeam::SECOND,
+                                null,
+                                null,
+                                null,
+                                floatval($secondWinnerCoefficientNode->attr('data-selection-price')),
+                                Bookmaker::MARATHONBET,
+                            );
+                        }
 
-                        if ($hasFirstHandicapBet) {
+                        if ($hasFirstHandicapBet && $hasFirstHandicapCoefficientNode) {
                             $firstHandicapValue = Str::of($firstHandicapValueNode->text())->between('(', ')')->toFloat();
                             $firstHandicapBet = new BetSyncDTO(
                                 $event->id,
@@ -173,7 +185,7 @@ class MarathonbetService implements SyncSourceContract
                             );
                         }
 
-                        if ($hasSecondHandicapBet) {
+                        if ($hasSecondHandicapBet && $hasSecondHandicapCoefficientNode) {
                             $secondHandicapValue = Str::of($secondHandicapValueNode->text())->between('(', ')')->toFloat();
                             $secondHandicapBet = new BetSyncDTO(
                                 $event->id,
@@ -187,7 +199,7 @@ class MarathonbetService implements SyncSourceContract
                             );
                         }
 
-                        if ($hasFirstTotalBet) {
+                        if ($hasFirstTotalBet && $hasFirstTotalCoefficientNode) {
                             $firstTotalBet = new BetSyncDTO(
                                 $event->id,
                                 Type::TOTAL,
@@ -200,7 +212,7 @@ class MarathonbetService implements SyncSourceContract
                             );
                         }
 
-                        if ($hasSecondTotalBet) {
+                        if ($hasSecondTotalBet && $hasSecondTotalCoefficientNode) {
                             $secondTotalBet = new BetSyncDTO(
                                 $event->id,
                                 Type::TOTAL,
@@ -213,23 +225,27 @@ class MarathonbetService implements SyncSourceContract
                             );
                         }
 
-                        $this->bets->push(
-                            $firstWinnerBet, $secondWinnerBet,
-                        );
+                        if ($hasFirstWinnerBetNode && $hasFirstWinnerCoefficientNode) {
+                            $this->bets->push($firstWinnerBet);
+                        }
 
-                        if ($hasFirstHandicapBet) {
+                        if ($hasSecondWinnerBetNode && $hasSecondWinnerCoefficientNode) {
+                            $this->bets->push($secondWinnerBet);
+                        }
+
+                        if ($hasFirstHandicapBet && $hasFirstHandicapCoefficientNode) {
                             $this->bets->push($firstHandicapBet);
                         }
 
-                        if ($hasSecondHandicapBet) {
+                        if ($hasSecondHandicapBet && $hasSecondHandicapCoefficientNode) {
                             $this->bets->push($secondHandicapBet);
                         }
 
-                        if ($hasFirstTotalBet) {
+                        if ($hasFirstTotalBet && $hasFirstTotalCoefficientNode) {
                             $this->bets->push($firstTotalBet);
                         }
 
-                        if ($hasSecondTotalBet) {
+                        if ($hasSecondTotalBet && $hasSecondTotalCoefficientNode) {
                             $this->bets->push($secondTotalBet);
                         }
 
