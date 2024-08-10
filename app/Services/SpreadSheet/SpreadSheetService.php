@@ -129,7 +129,17 @@ class SpreadSheetService
         $i = 2;
 
         $bookmakerEntityIds = [];
-        do {
+        while(count($rows) >= $i) {
+            if (!Arr::has($rows, $i)) {
+                $bookmakerEntityIdsCollection = collect($bookmakerEntityIds);
+                $linkService->link(
+                    $bookmakerEntityIdsCollection->first(),
+                    $bookmakerEntityIdsCollection->slice(1)
+                );
+
+                break;
+            }
+
             if (count($rows[$i]) != 0) {
                 $row = $rows[$i];
 
@@ -139,18 +149,9 @@ class SpreadSheetService
                         $bookmakerEntityIds[] = $bookmakerEntityId;
                     }
                 }
-            }
-
-            if (!Arr::has($rows, $i + 1) || !Arr::has($rows, $i + 2) || count($rows[$i + 2]) == 0) {
-                $bookmakerEntityIdsCollection = collect($bookmakerEntityIds);
-                $linkService->link(
-                    $bookmakerEntityIdsCollection->first(),
-                    $bookmakerEntityIdsCollection->slice(1)
-                );
+            } elseif (count($rows[$i]) == 0 && count($bookmakerEntityIds) == 0) {
                 break;
-            }
-
-            if (count($rows[$i]) == 0) {
+            } else {
                 $bookmakerEntityIdsCollection = collect($bookmakerEntityIds);
                 $linkService->link(
                     $bookmakerEntityIdsCollection->first(),
@@ -158,12 +159,9 @@ class SpreadSheetService
                 );
 
                 $bookmakerEntityIds = [];
-
-                $i++;
-                continue;
             }
 
             $i++;
-        } while ($i < count($rows));
+        }
     }
 }
