@@ -22,6 +22,6 @@ class Player extends Model
 
     public function bookmakerPlayers(): HasMany
     {
-        return $this->hasMany(Player::class);
+        return $this->hasMany(BookmakerPlayer::class);
     }
 }
