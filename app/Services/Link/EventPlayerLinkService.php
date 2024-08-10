@@ -21,7 +21,7 @@ class EventPlayerLinkService
             return;
         }
 
-        $eventPlayerIds = $slaveIds->push($masterId);
+        $eventPlayerIds = $slaveIds->merge([$masterId]);
         $eventPlayers = EventPlayer::query()
             ->whereIn('id', $eventPlayerIds)
             ->get();

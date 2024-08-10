@@ -34,7 +34,7 @@ class EventLinkService
             ->whereIn('event_id', $slaveIds)
             ->update(['event_id' => $masterId]);
 
-        $eventIds = $slaveIds->push($masterId);
+        $eventIds = $slaveIds->merge([$masterId]);
         $eventPlayers = EventPlayer::query()
             ->whereIn('event_id', $eventIds)
             ->get();
@@ -44,14 +44,21 @@ class EventLinkService
 
         foreach (TeamNumber::getValues() as $teamNumber) {
             foreach (PositionNumber::getValues() as $positionNumber) {
-                $where = [
-                    'team_number' => $teamNumber,
-                    'position_number' => $positionNumber,
-                ];
+                $masterEventPlayer = $masterEventPlayers
+                    ->where('team_number', TeamNumber::fromValue($teamNumber))
+                    ->firstWhere('position_number', PositionNumber::fromValue($positionNumber));
+
+                if (!$masterEventPlayer) continue;
+
+                $eventPlayers = $slaveEventPlayers
+                    ->where('team_number', TeamNumber::fromValue($teamNumber))
+                    ->where('position_number', PositionNumber::fromValue($positionNumber));
+
+                if ($eventPlayers->count() < 1) continue;
 
                 $this->eventPlayerService->link(
-                    $masterEventPlayers->firstWhere($where)->id,
-                    $slaveEventPlayers->where($where)->pluck('id'),
+                    $masterEventPlayer->id,
+                    $eventPlayers->pluck('id'),
                 );
             }
         }
