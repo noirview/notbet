@@ -171,7 +171,7 @@ class SurebetService
         });
 
         if (!$hasSurebet) {
-            $surebet = SurebetBet::create();
+            $surebet = Surebet::create();
 
             $surebet->bets()->attach([
                 $firstBet->id,
