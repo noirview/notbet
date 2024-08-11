@@ -14,7 +14,7 @@ class Surebet extends Model
 
     public function bets(): BelongsToMany
     {
-        return $this->belongsToMany(Bet::class)
+        return $this->belongsToMany(Bet::class, 'surebet_bet')
             ->using(SurebetBet::class);
     }
 }
