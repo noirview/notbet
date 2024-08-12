@@ -14,6 +14,7 @@ use App\Enums\Bet\Type;
 use App\Enums\Bookmaker;
 use App\Enums\EventPlayer\TeamNumber;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -21,6 +22,8 @@ use Illuminate\Support\Str;
 
 class MaxlineService implements SyncSourceContract
 {
+
+    private Client $client;
     private Collection $tournaments;
     private Collection $events;
     private Collection $eventPlayers;
@@ -29,6 +32,14 @@ class MaxlineService implements SyncSourceContract
 
     public function __construct()
     {
+        $this->client = Http::buildClient();
+        Http::setClient($this->client)->get('https://maxline.by/');
+        Http::setClient($this->client)
+            ->asForm()
+            ->post('https://maxline.by/api/languages/set-lang', [
+                'lang' => 'en',
+            ]);
+
         $this->tournaments = collect();
         $this->events = collect();
         $this->players = collect();
@@ -38,10 +49,11 @@ class MaxlineService implements SyncSourceContract
 
     public function parse()
     {
-        $response = Http::get('https://maxline.by/api/league/line-sport', [
-            'sport' => 3,
-            'period' => 0
-        ]);
+        $response = Http::setClient($this->client)
+            ->get('https://maxline.by/api/league/line-sport', [
+                'sport' => 3,
+                'period' => 0
+            ]);
 
         $leaguesJson = $response->json('data.leagues.leagues');
         $this->tournaments = collect($leaguesJson)->map(function (array $leagueJson) {
@@ -52,12 +64,13 @@ class MaxlineService implements SyncSourceContract
             );
         });
 
-        $response = Http::get('https://maxline.by/api/event/line-data', [
-            'league' => $this->tournaments->pluck('id')->join('-'),
-            'express_plus' => 0,
-            'period' => 0,
-            'country_code' => ''
-        ]);
+        $response = Http::setClient($this->client)
+            ->get('https://maxline.by/api/event/line-data', [
+                'league' => $this->tournaments->pluck('id')->join('-'),
+                'express_plus' => 0,
+                'period' => 0,
+                'country_code' => ''
+            ]);
 
         $eventsJson = $response->json('data.events');
         collect($eventsJson)->each(function (array $eventJson) {
