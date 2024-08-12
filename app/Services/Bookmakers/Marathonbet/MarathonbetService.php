@@ -42,7 +42,7 @@ class MarathonbetService implements SyncSourceContract
     {
         $html = '';
 
-        $page = 1;
+        $page = 0;
         do {
             $response = Http::get('https://www.marathonbet.by/en/betting/Tennis+-+2398', [
                 'page' => $page,
