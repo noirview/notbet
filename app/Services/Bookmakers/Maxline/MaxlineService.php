@@ -138,7 +138,7 @@ class MaxlineService implements SyncSourceContract
     public function tournaments(): Collection
     {
         return $this->tournaments
-            ->filter(fn(TournamentSyncDTO $tournament) => Str::of($tournament->name)->contains([
+            ->filter(fn(TournamentSyncDTO $tournament) => !Str::of($tournament->name)->contains([
                 'aces',
                 'double faults',
                 'Name The Finalists',
