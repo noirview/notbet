@@ -259,6 +259,7 @@ class MarathonbetService implements SyncSourceContract
     public function tournaments(): Collection
     {
         return $this->tournaments
+            ->filter(fn(TournamentSyncDTO $tournament) => Str::of($tournament->name)->contains(['Outright']))
             ->unique(fn(TournamentSyncDTO $tournament) => "$tournament->id|$tournament->bookmaker");
     }
 
